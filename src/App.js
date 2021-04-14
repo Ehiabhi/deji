@@ -1,17 +1,25 @@
-import React from "react";
-import Header from "./components/Header";
-import SearchBar from "./components/SearchBar";
-import Category from "./components/Category";
-import Products from "./components/Products";
-
+import React, { useState } from "react";
+import Main from "./components/Main";
+import SearchResult from "./components/SearchResult";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+export const SearchResultContext = React.createContext("");
 
 const App = () => {
+  const [searchResult, setSearchResult] = useState([]);
+
   return (
     <>
-      <Header />
-      <SearchBar />
-      <Category />
-      <Products />
+      <SearchResultContext.Provider value={{ searchResult, setSearchResult }}>
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Main}></Route>
+            <Route
+              path="/products"
+              component={() => <SearchResult result={searchResult} />}
+            ></Route>
+          </Switch>
+        </Router>
+      </SearchResultContext.Provider>
     </>
   );
 };
