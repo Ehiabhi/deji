@@ -6,16 +6,24 @@ export const SearchResultContext = React.createContext("");
 
 const App = () => {
   const [searchResult, setSearchResult] = useState([]);
+  const [searchString, setSearchString] = useState("");
 
   return (
     <>
-      <SearchResultContext.Provider value={{ searchResult, setSearchResult }}>
+      <SearchResultContext.Provider
+        value={{ searchResult, setSearchResult, searchString, setSearchString }}
+      >
         <Router>
           <Switch>
             <Route exact path="/" component={Main}></Route>
             <Route
               path="/products"
-              component={() => <SearchResult result={searchResult} />}
+              component={() => (
+                <SearchResult
+                  searchString={searchString}
+                  result={searchResult}
+                />
+              )}
             ></Route>
           </Switch>
         </Router>

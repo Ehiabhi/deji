@@ -36,13 +36,19 @@ const SearchButton = styled.button`
 const SearchBar = ({ history, ...props }) => {
   const [searchInput, setSearchInput] = useState("");
 
-  const { searchResult, setSearchResult } = useContext(SearchResultContext);
+  const {
+    searchResult,
+    setSearchResult,
+    searchString,
+    setSearchString,
+  } = useContext(SearchResultContext);
 
   const handleSearchInput = (e) => {
     const value = e.target.value;
     const name = e.target.name;
     if (name === "searchText") {
       setSearchInput(value);
+      setSearchString(value);
     }
   };
 
@@ -50,12 +56,8 @@ const SearchBar = ({ history, ...props }) => {
     if (!Boolean(searchInput)) {
       return false;
     } else {
-      const categoriesName = categories.map((productName) =>
-        productName.name.toLocaleLowerCase()
-      );
-
-      const result = categoriesName.filter((cat) =>
-        cat.includes(searchInput.toLocaleLowerCase())
+      const result = categories.filter((cat) =>
+        cat.name.toLocaleLowerCase().includes(searchInput.toLocaleLowerCase())
       );
       if (result.length === 0) {
         alert("No items match your search");
@@ -63,8 +65,6 @@ const SearchBar = ({ history, ...props }) => {
         setSearchResult(result);
         history.push("/products");
       }
-
-      // categories.includes(searchInput);
     }
   };
 
